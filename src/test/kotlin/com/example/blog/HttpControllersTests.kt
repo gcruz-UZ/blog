@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @WebMvcTest
 class HttpControllersTests(@Autowired val mockMvc: MockMvc) {
-
+    //mocks. para crear algo q no es real (no levantar bbdd realmente)
     @MockkBean
     lateinit var userRepository: UserRepository
 
@@ -24,7 +24,9 @@ class HttpControllersTests(@Autowired val mockMvc: MockMvc) {
         val johnDoe = User("johnDoe", "John", "Doe")
         val lorem5Article = Article("Lorem", "Lorem", "dolor sit amet", johnDoe)
         val ipsumArticle = Article("Ipsum", "Ipsum", "dolor sit amet", johnDoe)
+        //cada vez que (every) se llame a esa funcion, devuelveme SIEMPRE lorem5Article e ipsumArticle. Asi no levantas bbdd ( mock)
         every { articleRepository.findAllByOrderByAddedAtDesc() } returns listOf(lorem5Article, ipsumArticle)
+        //aqui dices los asserts
         mockMvc.perform(get("/api/article/").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

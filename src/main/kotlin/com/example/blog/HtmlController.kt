@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.server.ResponseStatusException
 
+// MVC con plantillas mustache
 @Controller
 class HtmlController(private val repository: ArticleRepository,
                      private val properties: BlogProperties) {
@@ -17,8 +18,9 @@ class HtmlController(private val repository: ArticleRepository,
     fun blog(model: Model): String {
         model["title"] = properties.title
         model["banner"] = properties.banner
+        //conversion de modelo. en it.render esta llamando a linea 37
         model["articles"] = repository.findAllByOrderByAddedAtDesc().map { it.render() }
-        return "blog"
+        return "blog" //id plantilla (vista)
     }
 
     @GetMapping("/article/{slug}")
@@ -29,9 +31,10 @@ class HtmlController(private val repository: ArticleRepository,
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "This article does not exist")
         model["title"] = article.title
         model["article"] = article
-        return "article"
+        return "article" //id plantilla moustache
     }
 
+    //modelo vista cliente
     fun Article.render() = RenderedArticle(
             slug,
             title,

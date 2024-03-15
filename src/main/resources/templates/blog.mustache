@@ -1,9 +1,10 @@
 {{> header}}
 
+<!--coge el titulo que hemos metido en el modelo (en el controller)-->
 <h1>{{title}}</h1>
 
 <div class="articles">
-
+    <!--si existe banner... No es un for, pq banner.title es un objeto, no una lista-->
     {{#banner.title}}
         <section>
             <header class="banner">
@@ -15,6 +16,7 @@
         </section>
     {{/banner.title}}
 
+    <!--un for de articles, porque articles ya es un objeto de tipo lista-->
     {{#articles}}
         <section>
             <header class="article-header">
@@ -28,4 +30,5 @@
     {{/articles}}
 </div>
 
+<!--esto es un include-->
 {{> footer}}
